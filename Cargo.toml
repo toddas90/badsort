@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["Andrew Todd <andrew123ast@outlook.com>"]
 license = "GPL-3.0-or-later"
 edition = "2018"
+description = "Some basic sorting stuff I wrote as practice in Rust. Includes my favorite algorithm, BOGO Sort!"
+repository = "https://github.com/toddas90/badsort"
+homepage = "https://github.com/toddas90/badsort"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
