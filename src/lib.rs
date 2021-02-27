@@ -16,6 +16,7 @@ This program is free software: you can redistribute it and/or modify
 */
 
 use rand::*;
+use rayon::prelude::*;
 
 #[allow(unused_assignments)]
 pub fn bubble_sort(lst: & Vec<i32>) -> Vec<i32> {
@@ -37,6 +38,22 @@ pub fn bubble_sort(lst: & Vec<i32>) -> Vec<i32> {
             }
         }
     }
+    sorted
+}
+
+pub fn merge_sort_par(lst: &Vec<i32>) -> Vec<i32> {
+    if lst.len() < 2 {
+        lst.to_vec();
+    }
+    let mid = (lst.len() + 1) /2;
+    let (left, right) = lst.split_at(mid);
+
+    let (left, right) = rayon::join(|| merge_sort(& left.to_vec()),
+                                    || merge_sort(& right.to_vec()));
+
+    let halfsort = [left, right].concat();
+    let sorted = merge(& halfsort, mid);
+
     sorted
 }
 
