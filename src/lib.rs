@@ -17,15 +17,17 @@ This program is free software: you can redistribute it and/or modify
 
 use rand::prelude::*;
 
-pub fn sort<T: Ord>(input: &mut [T]) {
-    if input.is_empty() {return;}
+pub fn sort<T: PartialOrd>(input: &mut [T]) {
+    if input.is_empty() {
+        return;
+    }
     let mut rng = rand::thread_rng();
     while !is_sorted(input) {
         input.shuffle(&mut rng);
     }
 }
 
-fn is_sorted<T: Ord>(input: &[T]) -> bool {
+fn is_sorted<T: PartialOrd>(input: &[T]) -> bool {
     for i in 0..input.len() - 1 {
         if input[i] > input[i + 1] {
             return false;
