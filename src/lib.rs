@@ -15,110 +15,45 @@ This program is free software: you can redistribute it and/or modify
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-use rand::*;
-use rayon::prelude::*;
+use rand::random;
 
-#[allow(unused_assignments)]
-pub fn bubble_sort(lst: & Vec<i32>) -> Vec<i32> {
-    let mut clean_pass = false;
-    let mut sorted: Vec<i32> = Vec::new();
-    sorted = lst.to_vec();
-    for i in 1..sorted.len() {
-        if clean_pass {
-            break;
-        } else {
-            clean_pass = true;
-            let mut j = 0;
-            while j < (sorted.len() - i) {
-                if sorted[j] > sorted[j + 1] {
-                    sorted.swap(j, j+1);
-                    clean_pass = false;
-                }
-                j+= 1;
-            }
-        }
+pub fn sort<T: Ord>(input: &mut [T]) {
+    while !is_sorted(input) {
+        shuffle(input);
     }
-    sorted
 }
 
-pub fn merge_sort_par(lst: &Vec<i32>) -> Vec<i32> {
-    if lst.len() < 2 {
-        lst.to_vec();
-    }
-    let mid = (lst.len() + 1) /2;
-    let (left, right) = lst.split_at(mid);
-
-    let (left, right) = rayon::join(|| merge_sort(& left.to_vec()),
-                                    || merge_sort(& right.to_vec()));
-
-    let halfsort = [left, right].concat();
-    let sorted = merge(& halfsort, mid);
-
-    sorted
-}
-
-pub fn merge_sort(lst: & Vec<i32>) -> Vec<i32> {
-    if lst.len() < 2 {
-        return lst.to_vec();
-    }
-    let mid = (lst.len() + 1) / 2;
-    let (left, right) = lst.split_at(mid);
-
-    let left = merge_sort(& left.to_vec());
-    let right = merge_sort(& right.to_vec());
-
-    let halfsort = [left, right].concat();
-    let sorted = merge(& halfsort, mid);
-
-    return sorted;
-}
-
-fn merge(lst: & Vec<i32>, mid: usize) -> Vec<i32> {
-    let size = lst.len();
-    let mut left_index = 0;
-    let mut right_index = mid;
-    let mut sorted: Vec<i32> = Vec::new();
-
-    for _i in 0..size {
-        if right_index >= size {
-            sorted.push(lst[left_index]);
-            left_index += 1;
-        } else if left_index >= mid {
-            sorted.push(lst[right_index]);
-            right_index += 1;
-        } else if lst[left_index] < lst[right_index] {
-            sorted.push(lst[left_index]);
-            left_index += 1;
-        } else {
-            sorted.push(lst[right_index]);
-            right_index += 1;
-        }
-    }
-    return sorted;
-}
-
-pub fn bogo_sort(lst: & Vec<i32>) -> Vec<i32> {
-    let mut sorted = Vec::new();
-    sorted.clone_from(lst);
-    while is_sorted(& sorted) == false {
-        shuffle(&mut sorted);
-        // println!("Shuffled vec: {:?}", sorted);
-    }
-    return sorted;
-}
-
-fn is_sorted(lst: & Vec<i32>) -> bool {
-    for i in 0..lst.len() - 1 {
-        if lst[i] > lst[i + 1] {
+fn is_sorted<T: Ord>(input: &[T]) -> bool {
+    for i in 0..input.len() - 1 {
+        if input[i] > input[i + 1] {
             return false;
         }
     }
-    return true;
+    true
 }
 
-fn shuffle(lst: &mut Vec<i32>) {
-    let n = lst.len();
-    for i in 0..n {
-        lst.swap(i, thread_rng().gen::<usize>() % n);
+fn shuffle<T: Ord>(input: &mut [T]) {
+    for i in 0..input.len() {
+        input.swap(i, random::<usize>() % input.len());
     }
+}
+
+#[test]
+fn small_random() {
+    let mut test = vec![4, 2, 1, 5, 3];
+    let oracle = vec![1, 2, 3, 4, 5];
+
+    sort(&mut test);
+
+    assert_eq!(oracle, test);
+}
+
+#[test]
+fn small_same() {
+    let mut test = vec![0, 0, 0];
+    let oracle = vec![0, 0, 0];
+
+    sort(&mut test);
+
+    assert_eq!(oracle, test);
 }
