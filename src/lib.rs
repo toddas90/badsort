@@ -15,11 +15,12 @@ This program is free software: you can redistribute it and/or modify
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-use rand::random;
+use rand::prelude::*;
 
 pub fn sort<T: Ord>(input: &mut [T]) {
+    let mut rng = rand::thread_rng();
     while !is_sorted(input) {
-        shuffle(input);
+        input.shuffle(&mut rng);
     }
 }
 
@@ -30,12 +31,6 @@ fn is_sorted<T: Ord>(input: &[T]) -> bool {
         }
     }
     true
-}
-
-fn shuffle<T: Ord>(input: &mut [T]) {
-    for i in 0..input.len() {
-        input.swap(i, random::<usize>() % input.len());
-    }
 }
 
 #[test]
