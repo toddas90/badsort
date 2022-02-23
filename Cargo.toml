@@ -1,6 +1,6 @@
 [package]
 name = "badsort"
-version = "0.2"
+version = "0.2.0"
 authors = ["Andrew Todd <andrew123ast@outlook.com>"]
 license = "GPL-3.0-or-later"
 edition = "2018"
