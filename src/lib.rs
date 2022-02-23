@@ -36,6 +36,8 @@ fn is_sorted<T: PartialOrd>(input: &[T]) -> bool {
     true
 }
 
+// Unit Tests
+
 #[test]
 fn small_random() {
     let mut test = vec![4, 2, 1, 5, 3];
@@ -48,11 +50,19 @@ fn small_random() {
 
 #[test]
 fn small_same() {
-    let mut test = vec![0, 0, 0];
-    let oracle = vec![0, 0, 0];
+    let mut test = vec![0;5];
+    let oracle = vec![0;5];
 
     sort(&mut test);
 
+    assert_eq!(oracle, test);
+}
+
+#[test]
+fn empty() {
+    let mut test: Vec<i32> = Vec::new();
+    let oracle: Vec<i32> = Vec::new();
+    sort(&mut test);
     assert_eq!(oracle, test);
 }
 
