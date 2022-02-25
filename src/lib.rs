@@ -29,6 +29,8 @@ use rand::prelude::*;
 /// # Examples
 ///
 /// ```
+/// use badsort::bogosort;
+/// 
 /// let mut arr = vec![4, 5, 2, 1, 3];
 /// 
 /// bogosort(&mut arr);
