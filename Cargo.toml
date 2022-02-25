@@ -1,10 +1,6 @@
 [package]
 name = "badsort"
-<<<<<<< HEAD
 version = "0.2.1"
-=======
-version = "0.2.0"
->>>>>>> 3a24249dbc7a103ff4a56d24874f01962ee797cd
 authors = ["Andrew Todd <andrew123ast@outlook.com>"]
 license = "GPL-3.0-or-later"
 edition = "2018"
