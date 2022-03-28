@@ -42,7 +42,7 @@ pub fn bogosort<T: PartialOrd>(input: &mut [T]) {
         return;
     }
     let mut rng = rand::thread_rng();
-
+    
     while !input.iter().is_sorted() {
         input.shuffle(&mut rng);
     }
@@ -52,6 +52,16 @@ pub fn bogosort<T: PartialOrd>(input: &mut [T]) {
 fn small_random() {
     let mut test = vec![4, 2, 1, 5, 3];
     let oracle = vec![1, 2, 3, 4, 5];
+
+    bogosort(&mut test);
+
+    assert_eq!(oracle, test);
+}
+
+#[test]
+fn small_alternating() {
+    let mut test = vec![1, 2, 1, 2, 1];
+    let oracle = vec![1, 1, 1, 2, 2];
 
     bogosort(&mut test);
 
@@ -72,7 +82,15 @@ fn small_same() {
 fn empty() {
     let mut test: Vec<i32> = Vec::new();
     let oracle: Vec<i32> = Vec::new();
-    sort(&mut test);
+    bogosort(&mut test);
+    assert_eq!(oracle, test);
+}
+
+#[test]
+fn single() {
+    let mut test = vec![1];
+    let oracle = vec![1];
+    bogosort(&mut test);
     assert_eq!(oracle, test);
 }
 
